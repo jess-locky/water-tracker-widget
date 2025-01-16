@@ -22,33 +22,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             border: 3px solid #0077b6; /* Add border */
             border-radius: 20px; /* Rounded corners */
             background-color: #1c1c1c; /* Dark background for container */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+            padding: 10px;
             text-align: center;
         }
         h1 {
             color: #00b4d8;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1rem;
+            margin: 0;
         }
-        #count {
-            font-size: 2.5rem;
+        #count-goal {
+            font-size: 2rem;
             color: #90e0ef;
-            margin: 10px 0;
-        }
-        .goal {
-            font-size: 1.2rem;
-            color: #caf0f8;
-            margin-top: 10px;
         }
         button {
             background-color: #0096c7;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 15px;
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
@@ -61,30 +56,24 @@
 <body>
     <div class="widget-container">
         <h1>💧 Glasses of Water Today</h1>
-        <div id="count">0</div>
-        <div class="goal">/5</div>
+        <div id="count-goal">0 / 5</div>
         <button onclick="incrementCount()">+ Add Glass</button>
     </div>
 
     <script>
         // Set the goal
         const goal = 5;
-        const countDisplay = document.getElementById('count');
-        const goalDisplay = document.querySelector('.goal');
+        const countGoalDisplay = document.getElementById('count-goal');
 
         // Retrieve the saved count from localStorage
         let count = localStorage.getItem('waterCount') || 0;
-        countDisplay.textContent = count;
-
-        // Update the goal display
-        goalDisplay.textContent = `${count}/${goal}`;
+        countGoalDisplay.textContent = `${count} / ${goal}`;
 
         // Function to increment the count
         function incrementCount() {
             if (count < goal) {
                 count++;
-                countDisplay.textContent = count;
-                goalDisplay.textContent = `${count}/${goal}`;
+                countGoalDisplay.textContent = `${count} / ${goal}`;
                 localStorage.setItem('waterCount', count); // Save the count
             }
         }
@@ -100,8 +89,7 @@
             ) - now;
             setTimeout(() => {
                 count = 0;
-                countDisplay.textContent = count;
-                goalDisplay.textContent = `${count}/${goal}`;
+                countGoalDisplay.textContent = `${count} / ${goal}`;
                 localStorage.setItem('waterCount', count);
                 resetAtMidnight();
             }, msUntilMidnight);
