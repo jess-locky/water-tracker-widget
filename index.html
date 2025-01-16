@@ -13,13 +13,27 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background: #f0f8ff;
+            background: #000000;
+        }
+        .widget-container {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #0077b6; /* Add border */
+            border-radius: 20px; /* Rounded corners */
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
         }
         h1 {
             color: #0077b6;
+            font-size: 1.5rem;
+            text-align: center;
         }
         #count {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #023e8a;
             margin: 10px 0;
         }
@@ -38,9 +52,11 @@
     </style>
 </head>
 <body>
-    <h1>Glasses of Water Drank Today</h1>
-    <div id="count">0</div>
-    <button onclick="incrementCount()">+ Add Glass</button>
+    <div class="widget-container">
+        <h1> 💧 Glasses of Water Today </h1>
+        <div id="count">0</div>
+        <button onclick="incrementCount()">+ Add Glass</button>
+    </div>
 
     <script>
         // Retrieve the saved count from localStorage
