@@ -17,13 +17,13 @@
             color: white; /* Default text color to white */
         }
         .widget-container {
-            width: 300px;
-            height: 135px;
+            width: 260px;
+            height: 110px; /* Small rectangle shape */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            border: 3px solid #0077b6; /* Add border */
+            border: 3px solid #4B0082; /* Indigo border */
             border-radius: 20px; /* Rounded corners */
             background-color: #1c1c1c; /* Dark background for container */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow */
@@ -36,20 +36,21 @@
             margin: 0;
         }
         #count-goal {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #90e0ef;
         }
         button {
-            background-color: #0096c7;
+            background-color: #4B0082; /* Indigo button */
             color: white;
             border: none;
-            padding: 5px 15px;
+            padding: 5px 10px;
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
+            margin-top: 5px;
         }
         button:hover {
-            background-color: #0077b6;
+            background-color: #3A0066; /* Darker indigo for hover effect */
         }
     </style>
 </head>
@@ -81,21 +82,20 @@
         // Reset the count at midnight
         function resetAtMidnight() {
             const now = new Date();
-            const msUntilMidnight = new Date(
-                now.getFullYear(),
-                now.getMonth(),
-                now.getDate() + 1,
-                0, 0, 0, 0
-            ) - now;
+            const easternOffset = -5; // Eastern Time offset in hours (standard time)
+            const utcMidnight = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, easternOffset, 0, 0); // Next midnight in EST
+            const msUntilMidnight = utcMidnight - now;
+
             setTimeout(() => {
-                count = 0;
-                countGoalDisplay.textContent = `${count} / ${goal}`;
-                localStorage.setItem('waterCount', count);
-                resetAtMidnight();
+                count = 0; // Reset the count
+                countGoalDisplay.textContent = `${count} / ${goal}`; // Update the display
+                localStorage.setItem('waterCount', count); // Save the reset value
+                resetAtMidnight(); // Schedule the next reset
             }, msUntilMidnight);
         }
 
-        resetAtMidnight(); // Initialize the reset function
+        // Initialize the midnight reset
+        resetAtMidnight();
     </script>
 </body>
 </html>
