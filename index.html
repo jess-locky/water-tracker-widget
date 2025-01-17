@@ -39,6 +39,11 @@
             font-size: 1.8rem;
             color: #F5F5F5;
         }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
         button {
             background-color: #4B0082;  
             color: white;
@@ -47,7 +52,8 @@
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            margin-top: 5px;
+            flex: 1; /* Ensure buttons are equal width */
+            margin: 0 5px; /* Spacing between buttons */
         }
         button:hover {
             background-color: #3A0066;  
@@ -58,7 +64,10 @@
     <div class="widget-container">
         <h1>💧 Glasses of Water Today</h1>
         <div id="count-goal">0 / 5</div>
-        <button onclick="incrementCount()">+ Add Glass</button>
+        <div class="button-container">
+            <button onclick="incrementCount()">➕</button>
+            <button onclick="decrementCount()" ondblclick="resetCount()">🔙</button>
+        </div>
     </div>
 
     <script>
@@ -67,45 +76,36 @@
         const countGoalDisplay = document.getElementById('count-goal');
 
         // Retrieve the saved count from localStorage
-        let count = localStorage.getItem('waterCount') || 0;
+        let count = parseInt(localStorage.getItem('waterCount')) || 0;
         countGoalDisplay.textContent = `${count} / ${goal}`;
 
         // Function to increment the count
         function incrementCount() {
             if (count < goal) {
                 count++;
-                countGoalDisplay.textContent = `${count} / ${goal}`;
-                localStorage.setItem('waterCount', count); // Save the count
+                updateCount();
             }
         }
 
-        // Reset the count at midnight
-        function resetAtMidnight() {
-            const now = new Date();
-
-            // Calculate the next midnight in local time
-            const nextMidnight = new Date(
-                now.getFullYear(),
-                now.getMonth(),
-                now.getDate() + 1, // Move to the next day
-                0, 0, 0, 0 // Set time to 00:00:00
-            );
-
-            const msUntilMidnight = nextMidnight - now; // Time difference in milliseconds
-
-            setTimeout(() => {
-                // Reset the count
-                count = 0;
-                countGoalDisplay.textContent = `${count} / ${goal}`; // Update the display
-                localStorage.setItem('waterCount', count); // Save the reset value
-
-                // Schedule the next reset
-                resetAtMidnight();
-            }, msUntilMidnight);
+        // Function to decrement the count
+        function decrementCount() {
+            if (count > 0) {
+                count--;
+                updateCount();
+            }
         }
 
-        // Initialize the midnight reset
-        resetAtMidnight();
+        // Function to reset the count (triggered by double-clicking the 🔙 button)
+        function resetCount() {
+            count = 0;
+            updateCount();
+        }
+
+        // Function to update the count display and save to localStorage
+        function updateCount() {
+            countGoalDisplay.textContent = `${count} / ${goal}`;
+            localStorage.setItem('waterCount', count);
+        }
     </script>
 </body>
 </html>
