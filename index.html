@@ -216,6 +216,27 @@
                 statusDisplay.className = 'status in-progress';
             }
         }
+
+        // Function to reset at 1:00 AM every day
+        function resetEveryDay() {
+            const now = new Date();
+            // Calculate next 1:00 AM
+            const next1AM = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() + (now.getHours() >= 1 ? 1 : 0),
+                1, 0, 0, 0
+            );
+            const msUntil1AM = next1AM - now;
+            setTimeout(() => {
+                count = 0;
+                updateDisplay();
+                resetEveryDay();
+            }, msUntil1AM);
+        }
+
+        // Initialize the daily reset
+        resetEveryDay();
     </script>
 </body>
 </html>
